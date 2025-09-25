@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -46,6 +47,14 @@ export default function DetailsPage() {
           ? new Date(todo.completedAt).toLocaleString()
           : "Not completed yet"}
       </p>
+      <button className="mt-20">
+        <Link
+          href="/todo"
+          className="text-xl text-white border border-blue-600 bg-blue-600 hover:bg-blue-400 rounded-sm p-3"
+        >
+          Back to Home
+        </Link>
+      </button>
     </section>
   );
 }
