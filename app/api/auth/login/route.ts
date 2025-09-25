@@ -7,7 +7,7 @@ import { serialize } from "cookie";
 const users = [
   {
     email: "test@example.com",
-    password: "$2b$10$HCtqVhJ8H2RYbGz6JU/6uOCXe6I58Htqt4ZwDBflJJBeXNEh63xGq", // "password123"
+    password: "$2b$10$HCtqVhJ8H2RYbGz6JU/6uOCXe6I58Htqt4ZwDBflJJBeXNEh63xGq", 
   },
 ];
 
