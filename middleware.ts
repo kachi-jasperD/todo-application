@@ -16,21 +16,24 @@ async function verifyJWT(token: string) {
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
+  const { pathname } = req.nextUrl;
 
-  if (req.nextUrl.pathname.startsWith("/todo")) {
+  // Only protect /todo
+  if (pathname.startsWith("/todo")) {
     if (!token) {
-      return NextResponse.redirect(new URL("/login", req.url));
+      return NextResponse.redirect(new URL("/", req.url));
     }
 
     const payload = await verifyJWT(token);
     if (!payload) {
-      return NextResponse.redirect(new URL("/login", req.url));
+      return NextResponse.redirect(new URL("/", req.url));
     }
   }
 
   return NextResponse.next();
 }
 
+// 👇 Only run middleware on /todo
 export const config = {
   matcher: ["/todo/:path*"],
 };
