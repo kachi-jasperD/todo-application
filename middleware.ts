@@ -1,4 +1,4 @@
-// middleware.ts
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
@@ -18,7 +18,7 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
 
-  // Only protect /todo
+  // To protect accessing /todo via the url directly
   if (pathname.startsWith("/todo")) {
     if (!token) {
       return NextResponse.redirect(new URL("/", req.url));
@@ -33,7 +33,7 @@ export async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-// 👇 Only run middleware on /todo
+// Running middleware on /todo
 export const config = {
   matcher: ["/todo/:path*"],
 };
