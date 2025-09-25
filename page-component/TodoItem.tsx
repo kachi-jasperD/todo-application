@@ -69,7 +69,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
       ) : (
         <button
           onClick={() => setIsEditing(true)}
-          className="px-2 py-1 bg-yellow-500 text-white rounded"
+          className="px-2 py-1 bg-yellow-400 text-white rounded"
         >
           Edit
         </button>
