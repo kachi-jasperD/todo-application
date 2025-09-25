@@ -32,6 +32,7 @@ function AddToDo() {
         id: crypto.randomUUID(),
         text: inputValue,
         completed: false,
+        createdAt: new Date().toISOString(),
       };
       setTodos((prev) => [...prev, newTodo]);
       setInputValue("");
