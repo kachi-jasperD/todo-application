@@ -105,11 +105,17 @@ export async function POST(req: NextRequest) {
     response.headers.set(
       "Set-Cookie",
       serialize("token", token, {
+        // httpOnly: true,
+        // secure: true,
+        // // secure: process.env.NODE_ENV === "production",
+        // sameSite: "lax",
+        // maxAge: 60 * 60,
+        // path: "/",
+
         httpOnly: true,
-        secure: true,
-        // secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: 60 * 60,
+        secure: isProduction, // true in production, false in development
+        sameSite: isProduction ? "None" : "Lax", // 'None' for cross-site cookies in production
+        maxAge: 60 * 60, // 1 hour
         path: "/",
       })
     );
