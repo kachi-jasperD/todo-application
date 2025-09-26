@@ -20,6 +20,8 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+
   const router = useRouter(); 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,7 +37,8 @@ export function LoginPage() {
       });
 
       const data = await res.json();
-      if (data.success) {
+      // if (data.success) {
+      if (res.ok) {
         // Redirect to /todo on successful login
         router.push("/todo");
       } else {

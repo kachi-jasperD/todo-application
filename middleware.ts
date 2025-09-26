@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
@@ -25,20 +24,18 @@ export async function middleware(req: NextRequest) {
   // if (pathname.startsWith("/todo")) {
   // if (pathname.startsWith("/todo") && req.method === "GET"){
 
-if (pathname.startsWith("/todo")) {
-  const token = req.cookies.get("token")?.value;
+  if (pathname.startsWith("/todo")) {
+    const token = req.cookies.get("token")?.value;
 
-  if (!token) {
-    console.log("Redirect: No token");
-    return NextResponse.redirect(new URL("/", req.url));
-  }
+    if (!token) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
 
-  const payload = await verifyJWT(token);
-  if (!payload) {
-    console.log("Redirect: Invalid token");
-    return NextResponse.redirect(new URL("/", req.url));
+    const payload = await verifyJWT(token);
+    if (!payload) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
   }
-}
 
   return NextResponse.next();
 }

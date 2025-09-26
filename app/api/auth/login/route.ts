@@ -115,10 +115,10 @@ export async function POST(req: NextRequest) {
         // path: "/",
 
         httpOnly: true,
-        secure: isProduction, // ✅ now this works
-        sameSite: isProduction ? "none" : "lax",
-        maxAge: 60 * 60,
+        secure: true, // required for HTTPS
+        sameSite: "none", // required for cross-site cookies
         path: "/",
+        maxAge: 60 * 60,
       })
     );
 
