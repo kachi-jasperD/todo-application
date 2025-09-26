@@ -102,6 +102,8 @@ export async function POST(req: NextRequest) {
       .sign(secret);
 
     const response = NextResponse.json({ success: true, message: "Login successful" });
+
+    const isProduction = process.env.NODE_ENV === "production";
     response.headers.set(
       "Set-Cookie",
       serialize("token", token, {
