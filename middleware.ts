@@ -1,31 +1,78 @@
+// import { NextResponse } from "next/server";
+// import type { NextRequest } from "next/server";
+// import { jwtVerify } from "jose";
+
+// const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+// async function verifyJWT(token: string) {
+//   try {
+//     const { payload } = await jwtVerify(token, secret);
+//     return payload;
+//   } catch (err) {
+//     return null;
+//   }
+// }
+
+// export async function middleware(req: NextRequest) {
+//   const token = req.cookies.get("token")?.value;
+
+//   console.log("MIDDLEWARE: token =", token);
+//   const { pathname } = req.nextUrl;
+//   console.log("Token cookie:", req.cookies.get("token")?.value);
+
+//   // To protect accessing /todo via the url directly
+
+//   // if (pathname.startsWith("/todo") && req.method === "GET"){
+
+//   if (pathname.startsWith("/todo")) {
+//     const token = req.cookies.get("token")?.value;
+
+//     if (!token) {
+//       return NextResponse.redirect(new URL("/", req.url));
+//     }
+
+//     const payload = await verifyJWT(token);
+//     if (!payload) {
+//       return NextResponse.redirect(new URL("/", req.url));
+//     }
+//   }
+
+//   return NextResponse.next();
+// }
+
+// // Running middleware on /todo
+// export const config = {
+//   matcher: ["/todo/:path*"],
+// };
+
+
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
-const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+const secret = new TextEncoder().encode(
+  process.env.JWT_SECRET || "fallback_secret"
+);
 
 async function verifyJWT(token: string) {
   try {
     const { payload } = await jwtVerify(token, secret);
     return payload;
   } catch (err) {
+    console.log("JWT verification failed:", err);
     return null;
   }
 }
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("token")?.value;
-
-  console.log("MIDDLEWARE: token =", token);
   const { pathname } = req.nextUrl;
-  console.log("Token cookie:", req.cookies.get("token")?.value);
 
-  // To protect accessing /todo via the url directly
-  // if (pathname.startsWith("/todo")) {
-  // if (pathname.startsWith("/todo") && req.method === "GET"){
-
+  // Protect /todo routes
   if (pathname.startsWith("/todo")) {
     const token = req.cookies.get("token")?.value;
+
+    console.log("Middleware token:", token);
 
     if (!token) {
       return NextResponse.redirect(new URL("/", req.url));
@@ -40,7 +87,7 @@ export async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-// Running middleware on /todo
+// Apply middleware to /todo
 export const config = {
   matcher: ["/todo/:path*"],
 };
