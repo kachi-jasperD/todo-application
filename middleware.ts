@@ -21,7 +21,8 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // To protect accessing /todo via the url directly
-  if (pathname.startsWith("/todo")) {
+  // if (pathname.startsWith("/todo")) {
+  if (pathname.startsWith("/todo") && req.method === "GET"){
     if (!token) {
        console.log("Redirect: No token");
       return NextResponse.redirect(new URL("/", req.url));
