@@ -115,9 +115,9 @@ export async function POST(req: NextRequest) {
         // path: "/",
 
         httpOnly: true,
-        secure: isProduction, // true in production, false in development
-        sameSite: isProduction ? "None" : "Lax", // 'None' for cross-site cookies in production
-        maxAge: 60 * 60, // 1 hour
+        secure: isProduction, // ✅ now this works
+        sameSite: isProduction ? "none" : "lax",
+        maxAge: 60 * 60,
         path: "/",
       })
     );
