@@ -19,21 +19,26 @@ export async function middleware(req: NextRequest) {
 
   console.log("MIDDLEWARE: token =", token);
   const { pathname } = req.nextUrl;
+  console.log("Token cookie:", req.cookies.get("token")?.value);
 
   // To protect accessing /todo via the url directly
   // if (pathname.startsWith("/todo")) {
-  if (pathname.startsWith("/todo") && req.method === "GET"){
-    if (!token) {
-       console.log("Redirect: No token");
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+  // if (pathname.startsWith("/todo") && req.method === "GET"){
 
-    const payload = await verifyJWT(token);
-    if (!payload) {
-      console.log("Redirect: Invalid token");
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+if (pathname.startsWith("/todo")) {
+  const token = req.cookies.get("token")?.value;
+
+  if (!token) {
+    console.log("Redirect: No token");
+    return NextResponse.redirect(new URL("/", req.url));
   }
+
+  const payload = await verifyJWT(token);
+  if (!payload) {
+    console.log("Redirect: Invalid token");
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+}
 
   return NextResponse.next();
 }
